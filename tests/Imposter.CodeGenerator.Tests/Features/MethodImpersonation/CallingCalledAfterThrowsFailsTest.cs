@@ -18,7 +18,7 @@ namespace Sample
         public static void Execute()
         {
             var imposter = new IMethodInterfaceImposter();
-            imposter.GetNumber().Throws<System.InvalidOperationException>().Called(Imposter.Abstractions.Count.Exactly(1));
+            imposter.GetNumber().Throws<System.InvalidOperationException>().Should().HaveBeenCalled(Imposter.Abstractions.Count.Exactly(1));
         }
     }
 }

@@ -326,6 +326,24 @@ internal static class WellKnownTypes
                     )
                 );
 
+            internal static NameSyntax HaveInvocationVerifier(TypeSyntax verifierType) =>
+                QualifiedName(
+                    Namespace,
+                    GenericName(
+                        Identifier(nameof(HaveInvocationVerifier)),
+                        TypeArgumentList(SingletonSeparatedList(verifierType))
+                    )
+                );
+
+            internal static NameSyntax IHaveInvocationVerifier(TypeSyntax verifierType) =>
+                QualifiedName(
+                    Namespace,
+                    GenericName(
+                        Identifier(nameof(IHaveInvocationVerifier)),
+                        TypeArgumentList(SingletonSeparatedList(verifierType))
+                    )
+                );
+
             internal static NameSyntax VerificationFailedException =>
                 QualifiedName(Namespace, IdentifierName("VerificationFailedException"));
 

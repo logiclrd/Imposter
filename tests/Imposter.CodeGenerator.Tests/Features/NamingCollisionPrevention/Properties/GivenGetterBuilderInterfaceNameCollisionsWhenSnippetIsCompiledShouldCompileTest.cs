@@ -26,7 +26,7 @@ namespace Sample.NamingCollisionUsage
             interfaceImposter.IWeirdPropertyGetterContinuationBuilder.Getter().Returns(3).Then();
             interfaceImposter.IWeirdPropertyGetterCallbackBuilder.Getter().Returns(4).Callback(() => { });
             interfaceImposter.IWeirdPropertyGetterVerifier.Getter().Returns(5);
-            interfaceImposter.IWeirdPropertyGetterVerifier.Getter().Called(Count.AtLeast(1));
+            interfaceImposter.IWeirdPropertyGetterVerifier.Getter().Should().HaveBeenCalled(Count.AtLeast(1));
             interfaceImposter.IWeirdPropertyGetterFluentBuilder.Getter().Returns(6).Then().Returns(() => 7);
 
             var classImposter = new PropertyGetterBuilderClassCollisionTargetImposter();

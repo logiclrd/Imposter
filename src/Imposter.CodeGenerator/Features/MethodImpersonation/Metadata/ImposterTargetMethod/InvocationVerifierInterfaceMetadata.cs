@@ -9,8 +9,6 @@ internal readonly struct InvocationVerifierInterfaceMetadata
 
     internal readonly TypeMetadata Interface;
 
-    internal readonly CalledMethodMetadata CalledMethod;
-
     internal readonly NameSyntax Syntax;
 
     internal InvocationVerifierInterfaceMetadata(in ImposterTargetMethodMetadata method)
@@ -18,6 +16,5 @@ internal readonly struct InvocationVerifierInterfaceMetadata
         Name = $"{method.UniqueName}InvocationVerifier";
         Interface = new TypeMetadata(Name);
         Syntax = SyntaxFactoryHelper.WithMethodGenericArguments(method.GenericTypeArguments, Name);
-        CalledMethod = new CalledMethodMetadata();
     }
 }

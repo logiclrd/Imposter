@@ -60,8 +60,8 @@ namespace Imposter.Tests.Features.IndexerImpersonation
                 thread.Join();
             }
 
-            Should.NotThrow(() => getter.Called(Count.Exactly(ThreadCount / 2)));
-            Should.NotThrow(() => setter.Called(Count.Exactly(ThreadCount / 2)));
+            Should.NotThrow(() => getter.Should().HaveBeenCalled(Count.Exactly(ThreadCount / 2)));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Exactly(ThreadCount / 2)));
         }
 
         [Fact]

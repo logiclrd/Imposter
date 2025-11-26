@@ -1,4 +1,5 @@
 ﻿using Imposter.CodeGenerator.Features.PropertyImpersonation.Metadata;
+using Imposter.CodeGenerator.Features.Shared.Builders;
 using Imposter.CodeGenerator.SyntaxHelpers;
 using Imposter.CodeGenerator.SyntaxHelpers.Builders;
 using Microsoft.CodeAnalysis.CSharp;
@@ -14,6 +15,7 @@ internal static class SetterImposterBuilderBuilder
     {
         var builder = new ClassDeclarationBuilder(property.SetterImposter.Builder.Name)
             .AddModifier(Token(SyntaxKind.InternalKeyword))
+            .AddBaseType(SimpleBaseType(WellKnownTypes.Imposter.Abstractions.HaveInvocationVerifier(property.SetterImposterBuilderInterface.VerificationInterfaceTypeSyntax)))
             .AddBaseType(SimpleBaseType(property.SetterImposterBuilderInterface.Syntax))
             .AddBaseType(
                 SimpleBaseType(property.SetterImposterBuilderInterface.FluentInterfaceTypeSyntax)
@@ -44,7 +46,11 @@ internal static class SetterImposterBuilderBuilder
             )
             .AddMember(BuildConstructor(property))
             .AddMember(BuildCallbackMethod(property))
-            .AddMember(BuildCalledMethod(property))
+            .AddMember(BuildHaveBeenCalledMethod(property))
+            .AddMember(HaveBeenCalledProxyBuilder.Build(
+                property.SetterImposter.Builder.TypeSyntax,
+                property.SetterImposterBuilderInterface.VerificationInterfaceTypeSyntax
+            ))
             .AddMember(BuildThenMethod(property))
             .AddMember(BuildInitialThenMethod(property))
             .AddMember(BuildUseBaseImplementationEntryMethod(property))
@@ -58,27 +64,23 @@ internal static class SetterImposterBuilderBuilder
             .WithModifiers(Token(SyntaxKind.InternalKeyword))
             .AddParameter(property.SetterImposter.Builder.SetterImposterField)
             .AddParameter(property.SetterImposter.Builder.CriteriaField)
+            .AddStatement(HaveInvocationVerifierInitializationBuilder.Build())
             .Build();
 
-    internal static MethodDeclarationSyntax BuildCalledMethod(
+    internal static MethodDeclarationSyntax BuildHaveBeenCalledMethod(
         in ImposterPropertyMetadata property
     ) =>
         new MethodDeclarationBuilder(
-            property.SetterImposterBuilderInterface.CalledMethod.ReturnType,
-            property.SetterImposterBuilderInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
-            .WithExplicitInterfaceSpecifier(
-                ExplicitInterfaceSpecifier(
-                    property.SetterImposterBuilderInterface.VerificationInterfaceTypeSyntax
-                )
-            )
             .AddParameter(
-                ParameterSyntax(property.SetterImposterBuilderInterface.CalledMethod.CountParameter)
+                ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter)
             )
             .WithBody(
                 Block(
                     IdentifierName(property.SetterImposter.Builder.SetterImposterField.Name)
-                        .Dot(IdentifierName(property.SetterImposter.CalledMethod.Name))
+                        .Dot(IdentifierName(HaveBeenCalledMethodMetadata.Name))
                         .Call(
                             ArgumentListSyntax([
                                 Argument(
@@ -88,9 +90,7 @@ internal static class SetterImposterBuilderBuilder
                                 ),
                                 Argument(
                                     IdentifierName(
-                                        property
-                                            .SetterImposterBuilderInterface
-                                            .CalledMethod
+                                        HaveBeenCalledMethodMetadata
                                             .CountParameter
                                             .Name
                                     )

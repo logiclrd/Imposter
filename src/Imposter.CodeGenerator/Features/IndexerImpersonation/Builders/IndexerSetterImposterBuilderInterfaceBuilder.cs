@@ -33,10 +33,8 @@ internal static class IndexerSetterImposterBuilderInterfaceBuilder
     {
         var builder = new InterfaceDeclarationBuilder(indexer.SetterBuilderInterface.Name)
             .AddModifier(Token(SyntaxKind.PublicKeyword))
-            .AddBaseType(SimpleBaseType(indexer.SetterBuilderInterface.CallbackInterfaceTypeSyntax))
-            .AddBaseType(
-                SimpleBaseType(indexer.SetterBuilderInterface.VerificationInterfaceTypeSyntax)
-            );
+            .AddBaseType(SimpleBaseType(WellKnownTypes.Imposter.Abstractions.IHaveInvocationVerifier(indexer.SetterBuilderInterface.VerificationInterfaceTypeSyntax)))
+            .AddBaseType(SimpleBaseType(indexer.SetterBuilderInterface.CallbackInterfaceTypeSyntax));
 
         if (indexer.SetterBuilderInterface.UseBaseImplementationMethod is not null)
         {
@@ -105,11 +103,11 @@ internal static class IndexerSetterImposterBuilderInterfaceBuilder
         IndexerSetterImposterBuilderInterfaceMetadata setterInterface
     ) =>
         new MethodDeclarationBuilder(
-            setterInterface.CalledMethod.ReturnType,
-            setterInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
             .AddParameter(
-                SyntaxFactoryHelper.ParameterSyntax(setterInterface.CalledMethod.CountParameter)
+                SyntaxFactoryHelper.ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter)
             )
             .WithSemicolon()
             .Build();

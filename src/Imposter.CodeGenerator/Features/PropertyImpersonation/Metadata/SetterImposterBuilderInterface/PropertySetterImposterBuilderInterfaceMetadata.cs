@@ -26,8 +26,6 @@ internal readonly struct PropertySetterImposterBuilderInterfaceMetadata
 
     internal readonly NameSyntax VerificationInterfaceTypeSyntax;
 
-    internal readonly CalledMethodMetadata CalledMethod;
-
     internal readonly CallbackMethodMetadata CallbackMethod;
 
     internal readonly PropertySetterThenMethodMetadata ThenMethod;
@@ -54,7 +52,6 @@ internal readonly struct PropertySetterImposterBuilderInterfaceMetadata
         ContinuationInterfaceTypeSyntax = SyntaxFactory.ParseName(ContinuationInterfaceName);
         VerificationInterfaceName = $"I{property.UniqueName}PropertySetterVerifier";
         VerificationInterfaceTypeSyntax = SyntaxFactory.ParseName(VerificationInterfaceName);
-        CalledMethod = new CalledMethodMetadata();
         CallbackMethod = new CallbackMethodMetadata(
             property,
             ContinuationInterfaceTypeSyntax,

@@ -1,4 +1,6 @@
 using Imposter.CodeGenerator.Features.MethodImpersonation.Metadata.ImposterTargetMethod;
+using Imposter.CodeGenerator.Features.Shared.Builders;
+using Imposter.CodeGenerator.SyntaxHelpers;
 using Imposter.CodeGenerator.SyntaxHelpers.Builders;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,6 +17,11 @@ internal static partial class MethodImposterBuilderBuilder
 
         var builderClass = new ClassDeclarationBuilder(method.MethodImposter.Builder.Name)
             .AddModifier(Token(SyntaxKind.InternalKeyword))
+            .AddBaseType(SimpleBaseType(
+                WellKnownTypes.Imposter.Abstractions.HaveInvocationVerifier(
+                    method.InvocationVerifierInterface.Syntax
+                )
+            ))
             .AddBaseType(SimpleBaseType(method.MethodImposter.BuilderInterface.Syntax))
             .AddBaseType(
                 SimpleBaseType(method.MethodInvocationImposterGroup.ContinuationInterface.Syntax)
@@ -36,18 +43,24 @@ internal static partial class MethodImposterBuilderBuilder
 
         var constructor = BuildConstructorAndInitializeMembers(
             method.MethodImposter.Builder.Name,
-            fields
+            fields,
+            additionalStatements: [
+                HaveInvocationVerifierInitializationBuilder.Build()
+            ]
         );
-        constructor = constructor.WithBody(
-            constructor.Body!.AddStatements(
-                BuildInvocationSetupInitializationStatements(method).ToArray()
-            )
-        );
+
+        constructor = constructor
+            .WithBody(
+                constructor.Body!.AddStatements(
+                    BuildInvocationSetupInitializationStatements(method).ToArray()
+                )
+            );
 
         return builderClass
             .AddMember(constructor)
             .AddMembers(ImplementInvocationSetupBuilderInterface(method))
-            .AddMember(BuildCalledMethod(method))
+            .AddMember(BuildHaveBeenCalledMethod(method))
+            .AddMember(HaveBeenCalledProxyBuilder.Build(method.MethodImposter.Builder.Syntax, method.InvocationVerifierInterface.Syntax))
             .Build();
     }
 }

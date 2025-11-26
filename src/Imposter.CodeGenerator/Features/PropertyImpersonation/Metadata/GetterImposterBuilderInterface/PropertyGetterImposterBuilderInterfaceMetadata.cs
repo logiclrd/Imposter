@@ -36,8 +36,6 @@ internal readonly struct PropertyGetterImposterBuilderInterfaceMetadata
 
     internal readonly CallbackMethodMetadata CallbackMethod;
 
-    internal readonly CalledMethodMetadata CalledMethod;
-
     internal readonly PropertyGetterThenMethodMetadata ThenMethod;
 
     internal readonly GetterUseBaseImplementationMethodMetadata? UseBaseImplementationMethod;
@@ -80,7 +78,6 @@ internal readonly struct PropertyGetterImposterBuilderInterfaceMetadata
             ContinuationInterfaceTypeSyntax,
             CallbackInterfaceTypeSyntax
         );
-        CalledMethod = new CalledMethodMetadata();
         ThenMethod = new PropertyGetterThenMethodMetadata(
             ContinuationInterfaceTypeSyntax,
             FluentInterfaceTypeSyntax

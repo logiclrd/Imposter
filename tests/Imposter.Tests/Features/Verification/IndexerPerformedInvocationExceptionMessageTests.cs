@@ -21,7 +21,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                setter.Called(expectedCount)
+                setter.Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -50,7 +50,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                getter.Called(expectedCount)
+                getter.Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -80,7 +80,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                getter.Called(expectedCount)
+                getter.Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();

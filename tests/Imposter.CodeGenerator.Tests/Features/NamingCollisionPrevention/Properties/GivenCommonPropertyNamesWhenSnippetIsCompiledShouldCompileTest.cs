@@ -22,7 +22,7 @@ namespace Sample.NamingCollisionUsage
         {
             var imposter = new IPropertyCommonNameCollisionTargetImposter();
             imposter.Count.Getter().Returns(1);
-            imposter.Count.Getter().Called(Count.AtLeast(1));
+            imposter.Count.Getter().Should().HaveBeenCalled(Count.AtLeast(1));
             imposter.Count.Setter(Arg<int>.Any()).Callback(_ => { });
             imposter.Default.Getter().Returns(2).Then().Returns(() => 3);
         }

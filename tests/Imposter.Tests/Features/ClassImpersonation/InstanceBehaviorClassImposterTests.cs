@@ -24,7 +24,7 @@ namespace Imposter.Tests.Features.ClassImpersonation
             second.InvokeProtectedMethod(3).ShouldBe(42);
 
             Should.NotThrow(() =>
-                imposter.ProtectedVirtualMethod(Arg<int>.Is(3)).Called(Count.Exactly(2))
+                imposter.ProtectedVirtualMethod(Arg<int>.Is(3)).Should().HaveBeenCalled(Count.Exactly(2))
             );
         }
 

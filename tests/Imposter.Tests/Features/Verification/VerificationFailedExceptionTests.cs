@@ -16,7 +16,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(2);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntNoParams().Called(expectedCount)
+                sut.IntNoParams().Should().HaveBeenCalled(expectedCount)
             );
             exception.MessageShouldDescribeCounts(expectedCount, 1);
             exception.PerformedInvocations.ShouldNotBeNull();

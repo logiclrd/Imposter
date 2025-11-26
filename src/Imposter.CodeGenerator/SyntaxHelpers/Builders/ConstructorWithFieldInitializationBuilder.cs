@@ -34,6 +34,12 @@ internal class ConstructorWithFieldInitializationBuilder
         return this;
     }
 
+    internal ConstructorWithFieldInitializationBuilder AddStatement(in StatementSyntax statement)
+    {
+        _bodyBuilder.AddStatement(statement);
+        return this;
+    }
+
     internal ConstructorDeclarationSyntax Build()
     {
         return _constructorBuilder.WithBody(_bodyBuilder.Build()).Build();

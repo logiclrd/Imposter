@@ -34,7 +34,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             var instance = sut.Instance();
             instance.ReadOnlyValue.ShouldBe("configured");
 
-            Should.NotThrow(() => sut.ReadOnlyValue.Getter().Called(Count.Once()));
+            Should.NotThrow(() => sut.ReadOnlyValue.Getter().Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.Value = "alpha";
             instance.Value = "beta";
 
-            Should.NotThrow(() => setter.Called(Count.Exactly(2)));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Fact]
@@ -60,8 +60,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.Value = "alpha";
             instance.Value = "beta";
 
-            Should.NotThrow(() => setter.Called(Count.Exactly(1)));
-            Should.Throw<VerificationFailedException>(() => setter.Called(Count.Exactly(2)));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Exactly(1)));
+            Should.Throw<VerificationFailedException>(() => setter.Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Theory]
@@ -81,8 +81,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.Value = "skip";
             instance.Value = "matched";
 
-            Should.NotThrow(() => setter.Called(Count.Exactly(1)));
-            Should.Throw<VerificationFailedException>(() => setter.Called(Count.Exactly(2)));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Exactly(1)));
+            Should.Throw<VerificationFailedException>(() => setter.Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Fact]

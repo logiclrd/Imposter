@@ -441,7 +441,7 @@ internal static class IndexerImposterBuilder
             .AddMember(BuildGetterGetMethod(indexer))
             .AddMember(BuildFindGetterInvocationImposterMethod(indexer))
             .AddMember(BuildGetOrCreateMethod(indexer))
-            .AddMember(BuildGetterCalledMethod(indexer))
+            .AddMember(BuildGetterHaveBeenCalledMethod(indexer))
             .AddMember(
                 new PropertyDeclarationBuilder(
                     PredefinedType(Token(SyntaxKind.StringKeyword)),
@@ -475,6 +475,7 @@ internal static class IndexerImposterBuilder
 
         return new ClassDeclarationBuilder(builderMetadata.Name)
             .AddModifier(Token(SyntaxKind.InternalKeyword))
+            .AddBaseType(SimpleBaseType(WellKnownTypes.Imposter.Abstractions.HaveInvocationVerifier(indexer.GetterBuilderInterface.VerificationInterfaceTypeSyntax)))
             .AddBaseType(SimpleBaseType(indexer.GetterBuilderInterface.TypeSyntax))
             .AddBaseType(SimpleBaseType(indexer.GetterBuilderInterface.FluentInterfaceTypeSyntax))
             .AddMember(
@@ -514,6 +515,9 @@ internal static class IndexerImposterBuilder
                                     .Assign(IdentifierName(builderMetadata.CriteriaFieldName))
                                     .ToStatementSyntax()
                             )
+                            .AddStatement(
+                                HaveInvocationVerifierInitializationBuilder.Build()
+                            )
                             .Build()
                     )
                     .Build()
@@ -526,7 +530,11 @@ internal static class IndexerImposterBuilder
             .AddMember(BuildGetterBuilderThrowsGenericExceptionMethod(indexer, throwsMetadata))
             .AddMember(BuildGetterBuilderThrowsDelegateMethod(indexer, throwsMetadata))
             .AddMember(BuildGetterBuilderCallbackMethod(indexer))
-            .AddMember(BuildGetterBuilderCalledMethod(indexer))
+            .AddMember(BuildGetterBuilderHaveBeenCalledMethod(indexer))
+            .AddMember(HaveBeenCalledProxyBuilder.Build(
+                IdentifierName(builderMetadata.Name),
+                indexer.GetterBuilderInterface.VerificationInterfaceTypeSyntax
+            ))
             .AddMember(BuildGetterBuilderThenMethod(indexer))
             .AddMember(
                 indexer.GetterBuilderInterface.UseBaseImplementationMethod is not null
@@ -761,27 +769,22 @@ internal static class IndexerImposterBuilder
             .Build();
     }
 
-    private static MethodDeclarationSyntax BuildGetterBuilderCalledMethod(
+    private static MethodDeclarationSyntax BuildGetterBuilderHaveBeenCalledMethod(
         in ImposterIndexerMetadata indexer
     )
     {
         var builderMetadata = indexer.GetterImplementation.Builder;
-        var parameter = ParameterSyntax(indexer.GetterBuilderInterface.CalledMethod.CountParameter);
+        var parameter = ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter);
 
         return new MethodDeclarationBuilder(
-            indexer.GetterBuilderInterface.CalledMethod.ReturnType,
-            indexer.GetterBuilderInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
-            .WithExplicitInterfaceSpecifier(
-                ExplicitInterfaceSpecifier(
-                    indexer.GetterBuilderInterface.VerificationInterfaceTypeSyntax
-                )
-            )
             .AddParameter(parameter)
             .WithBody(
                 Block(
                     IdentifierName(builderMetadata.ImposterFieldName)
-                        .Dot(IdentifierName("Called"))
+                        .Dot(IdentifierName(HaveBeenCalledMethodMetadata.Name))
                         .Call([
                             Argument(IdentifierName(builderMetadata.CriteriaFieldName)),
                             Argument(IdentifierName(parameter.Identifier)),
@@ -1389,7 +1392,7 @@ internal static class IndexerImposterBuilder
             )
             .AddMember(BuildSetterConstructor(indexer))
             .AddMember(BuildSetterCallbackMethod(indexer))
-            .AddMember(BuildSetterCalledMethod(indexer))
+            .AddMember(BuildSetterHaveBeenCalledMethod(indexer))
             .AddMember(BuildSetterSetMethod(indexer))
             .AddMember(BuildEnsureSetterConfiguredMethod(indexer))
             .AddMember(BuildMarkSetterConfiguredMethod(indexer))
@@ -1485,13 +1488,13 @@ internal static class IndexerImposterBuilder
             .Build();
     }
 
-    private static MethodDeclarationSyntax BuildSetterCalledMethod(
+    private static MethodDeclarationSyntax BuildSetterHaveBeenCalledMethod(
         in ImposterIndexerMetadata indexer
     )
     {
         var setter = indexer.SetterImplementation;
         var countParameter = ParameterSyntax(
-            indexer.SetterBuilderInterface.CalledMethod.CountParameter
+            HaveBeenCalledMethodMetadata.CountParameter
         );
         var invocationHistoryIdentifier = IdentifierName(setter.InvocationHistoryField.Name);
         var stringListType = WellKnownTypes.System.Collections.Generic.List(
@@ -1525,7 +1528,7 @@ internal static class IndexerImposterBuilder
                 .Call(Argument(IdentifierName("invocationCount")))
         );
 
-        return new MethodDeclarationBuilder(WellKnownTypes.Void, "Called")
+        return new MethodDeclarationBuilder(WellKnownTypes.Void, HaveBeenCalledMethodMetadata.Name)
             .AddModifier(Token(SyntaxKind.PublicKeyword))
             .AddParameter(
                 Parameter(Identifier(setter.CriteriaParameterName))
@@ -1952,6 +1955,7 @@ internal static class IndexerImposterBuilder
 
         return new ClassDeclarationBuilder(builderMetadata.Name)
             .AddModifier(Token(SyntaxKind.InternalKeyword))
+            .AddBaseType(SimpleBaseType(WellKnownTypes.Imposter.Abstractions.HaveInvocationVerifier(indexer.SetterBuilderInterface.VerificationInterfaceTypeSyntax)))
             .AddBaseType(SimpleBaseType(indexer.SetterBuilderInterface.TypeSyntax))
             .AddBaseType(SimpleBaseType(indexer.SetterBuilderInterface.FluentInterfaceTypeSyntax))
             .AddMember(
@@ -1991,12 +1995,19 @@ internal static class IndexerImposterBuilder
                                     .Assign(IdentifierName(builderMetadata.CriteriaFieldName))
                                     .ToStatementSyntax()
                             )
+                            .AddStatement(
+                                HaveInvocationVerifierInitializationBuilder.Build()
+                            )
                             .Build()
                     )
                     .Build()
             )
             .AddMember(BuildSetterBuilderCallbackMethod(indexer))
-            .AddMember(BuildSetterBuilderCalledMethod(indexer))
+            .AddMember(BuildSetterBuilderHaveBeenCalledMethod(indexer))
+            .AddMember(HaveBeenCalledProxyBuilder.Build(
+                IdentifierName(builderMetadata.Name),
+                indexer.SetterBuilderInterface.VerificationInterfaceTypeSyntax
+            ))
             .AddMember(BuildSetterBuilderThenMethod(indexer))
             .AddMember(
                 indexer.SetterBuilderInterface.UseBaseImplementationMethod is not null
@@ -2036,25 +2047,19 @@ internal static class IndexerImposterBuilder
             .Build();
     }
 
-    private static MethodDeclarationSyntax BuildSetterBuilderCalledMethod(
+    private static MethodDeclarationSyntax BuildSetterBuilderHaveBeenCalledMethod(
         in ImposterIndexerMetadata indexer
     )
     {
         var builderMetadata = indexer.SetterImplementation.Builder;
-        var calledMetadata = indexer.SetterBuilderInterface.CalledMethod;
-        var parameter = ParameterSyntax(calledMetadata.CountParameter);
+        var parameter = ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter);
 
-        return new MethodDeclarationBuilder(calledMetadata.ReturnType, calledMetadata.Name)
-            .WithExplicitInterfaceSpecifier(
-                ExplicitInterfaceSpecifier(
-                    indexer.SetterBuilderInterface.VerificationInterfaceTypeSyntax
-                )
-            )
+        return new MethodDeclarationBuilder(HaveBeenCalledMethodMetadata.ReturnType, HaveBeenCalledMethodMetadata.Name)
             .AddParameter(parameter)
             .WithBody(
                 Block(
                     IdentifierName(builderMetadata.ImposterFieldName)
-                        .Dot(IdentifierName("Called"))
+                        .Dot(IdentifierName(HaveBeenCalledMethodMetadata.Name))
                         .Call([
                             Argument(IdentifierName(builderMetadata.CriteriaFieldName)),
                             Argument(IdentifierName(parameter.Identifier)),
@@ -2477,7 +2482,7 @@ internal static class IndexerImposterBuilder
             .Build();
     }
 
-    private static MethodDeclarationSyntax BuildGetterCalledMethod(
+    private static MethodDeclarationSyntax BuildGetterHaveBeenCalledMethod(
         in ImposterIndexerMetadata indexer
     )
     {
@@ -2515,7 +2520,7 @@ internal static class IndexerImposterBuilder
                 )
         );
 
-        return new MethodDeclarationBuilder(WellKnownTypes.Void, "Called")
+        return new MethodDeclarationBuilder(WellKnownTypes.Void, HaveBeenCalledMethodMetadata.Name)
             .AddModifier(Token(SyntaxKind.PrivateKeyword))
             .AddParameter(
                 Parameter(Identifier(indexer.GetterImplementation.CriteriaParameterName))

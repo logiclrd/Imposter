@@ -40,16 +40,16 @@ internal static class PropertyGetterImposterBuilderInterfaceBuilder
     )
     {
         var builder = new InterfaceDeclarationBuilder(property.GetterImposterBuilderInterface.Name)
+            .AddBaseType(SimpleBaseType(
+                WellKnownTypes.Imposter.Abstractions.IHaveInvocationVerifier(
+                    property.GetterImposterBuilderInterface.VerificationInterfaceTypeSyntax
+                )
+            ))
             .AddBaseType(
                 SimpleBaseType(property.GetterImposterBuilderInterface.OutcomeInterfaceTypeSyntax)
             )
             .AddBaseType(
                 SimpleBaseType(property.GetterImposterBuilderInterface.CallbackInterfaceTypeSyntax)
-            )
-            .AddBaseType(
-                SimpleBaseType(
-                    property.GetterImposterBuilderInterface.VerificationInterfaceTypeSyntax
-                )
             );
 
         if (
@@ -149,12 +149,12 @@ internal static class PropertyGetterImposterBuilderInterfaceBuilder
         in ImposterPropertyMetadata property
     ) =>
         new MethodDeclarationBuilder(
-            property.GetterImposterBuilderInterface.CalledMethod.ReturnType,
-            property.GetterImposterBuilderInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
             .AddParameter(
                 SyntaxFactoryHelper.ParameterSyntax(
-                    property.GetterImposterBuilderInterface.CalledMethod.CountParameter
+                    HaveBeenCalledMethodMetadata.CountParameter
                 )
             )
             .WithSemicolon()

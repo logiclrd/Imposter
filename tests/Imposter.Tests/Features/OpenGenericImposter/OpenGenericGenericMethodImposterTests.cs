@@ -53,8 +53,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.DoSomething("alpha");
             instance.DoSomething(42);
 
-            Should.NotThrow(() => sut.DoSomething<string>(Arg<string>.Any()).Called(Count.Once()));
-            Should.NotThrow(() => sut.DoSomething<int>(Arg<int>.Any()).Called(Count.Once()));
+            Should.NotThrow(() => sut.DoSomething<string>(Arg<string>.Any()).Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => sut.DoSomething<int>(Arg<int>.Any()).Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             sut.Instance().DoSomething(5);
 
             Should.Throw<VerificationFailedException>(() =>
-                sut.DoSomething<string>(Arg<string>.Any()).Called(Count.Once())
+                sut.DoSomething<string>(Arg<string>.Any()).Should().HaveBeenCalled(Count.Once())
             );
         }
 
@@ -150,8 +150,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.AddItem("alpha");
             instance.AddItem(7);
 
-            Should.NotThrow(() => stringVerifier.Called(Count.Once()));
-            Should.NotThrow(() => intVerifier.Called(Count.Once()));
+            Should.NotThrow(() => stringVerifier.Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => intVerifier.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -176,7 +176,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             var instance = sut.Instance();
             instance.HandleReference(new ReferencePayload());
 
-            Should.NotThrow(() => verifier.Called(Count.Once()));
+            Should.NotThrow(() => verifier.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             var instance = sut.Instance();
             instance.CompareValues(new ComparablePayload(5), new ComparablePayload(10));
 
-            Should.NotThrow(() => verifier.Called(Count.Once()));
+            Should.NotThrow(() => verifier.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]

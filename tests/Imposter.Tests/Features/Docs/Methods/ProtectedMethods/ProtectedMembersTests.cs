@@ -31,7 +31,7 @@ namespace Imposter.Tests.Features.Docs.Methods.ProtectedMethods
 
             svc.InvokeProtected(5).ShouldBe(42);
 
-            Should.NotThrow(() => imp.InvokeProtected(Arg<int>.Any()).Called(Count.Once()));
+            Should.NotThrow(() => imp.InvokeProtected(Arg<int>.Any()).Should().HaveBeenCalled(Count.Once()));
         }
     }
 }

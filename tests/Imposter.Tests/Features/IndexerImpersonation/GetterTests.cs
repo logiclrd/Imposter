@@ -81,7 +81,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
             instance[1, "bar", thirdArgument]
                 .ShouldBe(1 + "bar".Length + thirdArgument.GetHashCode());
 
-            Should.NotThrow(() => builder.Called(Count.Exactly(3)));
+            Should.NotThrow(() => builder.Should().HaveBeenCalled(Count.Exactly(3)));
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
             instance[2].ShouldBe(10);
             instance[3].ShouldBe(10);
 
-            Should.NotThrow(() => builder.Called(Count.AtLeast(3)));
+            Should.NotThrow(() => builder.Should().HaveBeenCalled(Count.AtLeast(3)));
         }
 
         [Fact]
@@ -189,7 +189,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
             Should.Throw<VerificationFailedException>(() =>
                 _sut[Arg<int>.Any(), Arg<string>.Any(), Arg<object>.Any()]
                     .Getter()
-                    .Called(Count.Exactly(2))
+                    .Should().HaveBeenCalled(Count.Exactly(2))
             );
         }
 
@@ -201,11 +201,11 @@ namespace Imposter.Tests.Features.IndexerImpersonation
 
             builder.Returns(5);
 
-            Should.NotThrow(() => builder.Called(Count.Never()));
+            Should.NotThrow(() => builder.Should().HaveBeenCalled(Count.Never()));
 
             _ = _sut.Instance()[3, "now", new object()];
 
-            Should.Throw<VerificationFailedException>(() => builder.Called(Count.Never()));
+            Should.Throw<VerificationFailedException>(() => builder.Should().HaveBeenCalled(Count.Never()));
         }
 
         [Fact]
@@ -219,7 +219,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
             _ = instance[1, "a", new object()];
             _ = instance[2, "b", new object()];
 
-            Should.NotThrow(() => builder.Called(Count.AtLeast(2)));
+            Should.NotThrow(() => builder.Should().HaveBeenCalled(Count.AtLeast(2)));
         }
 
         [Fact]
@@ -232,7 +232,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
             var instance = _sut.Instance();
             _ = instance[4, "x", new object()];
 
-            Should.NotThrow(() => builder.Called(Count.AtMost(2)));
+            Should.NotThrow(() => builder.Should().HaveBeenCalled(Count.AtMost(2)));
         }
 
         [Fact]
@@ -250,7 +250,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
                 _ = _sut.Instance()[1, "fail", new object()]
             );
 
-            Should.NotThrow(() => builder.Called(Count.Exactly(1)));
+            Should.NotThrow(() => builder.Should().HaveBeenCalled(Count.Exactly(1)));
         }
 
         [Fact]
@@ -318,7 +318,7 @@ namespace Imposter.Tests.Features.IndexerImpersonation
             _ = instance[10, "two"];
 
             Should.NotThrow(() =>
-                sut[Arg<int>.Any(), Arg<string>.Any()].Getter().Called(Count.Exactly(2))
+                sut[Arg<int>.Any(), Arg<string>.Any()].Getter().Should().HaveBeenCalled(Count.Exactly(2))
             );
         }
 

@@ -43,8 +43,8 @@ namespace Sample.NamingCollisionUsage
                 .Callback((index, assigned) => { });
 
             var calledIndexer = new ICalledIndexerCollisionTargetImposter();
-            calledIndexer[Arg<long>.Any()].Getter().Called(Count.AtLeast(1));
-            calledIndexer[Arg<long>.Any()].Setter().Called(Count.AtLeast(2));
+            calledIndexer[Arg<long>.Any()].Getter().Should().HaveBeenCalled(Count.AtLeast(1));
+            calledIndexer[Arg<long>.Any()].Setter().Should().HaveBeenCalled(Count.AtLeast(2));
         }
     }
 }

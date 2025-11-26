@@ -19,7 +19,7 @@ internal readonly struct PropertySetterImposterMetadata
 
     internal readonly CallbackMethodMetadata CallbackMethod;
 
-    internal readonly CalledMethodMetadata CalledMethod;
+    internal readonly InvocationCountMetadata InvocationCountMetadata;
 
     internal readonly SetMethodMetadata SetMethod;
 
@@ -41,7 +41,7 @@ internal readonly struct PropertySetterImposterMetadata
         );
         DefaultPropertyBehaviourField = defaultPropertyBehaviourMetadata;
         CallbackMethod = new CallbackMethodMetadata(property);
-        CalledMethod = new CalledMethodMetadata(property);
+        InvocationCountMetadata = new InvocationCountMetadata(property);
         SetMethod = new SetMethodMetadata(property);
         Builder = new PropertySetterImposterBuilderMetadata(property, TypeSyntax);
     }

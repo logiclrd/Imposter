@@ -17,7 +17,7 @@ namespace Sample
         public static void Execute()
         {
             var imposter = new SampleServiceImposter();
-            imposter.Age.Setter(Imposter.Abstractions.Arg<int>.Any()).Called(Imposter.Abstractions.Count.Exactly(1));
+            imposter.Age.Setter(Imposter.Abstractions.Arg<int>.Any()).Should().HaveBeenCalled(Imposter.Abstractions.Count.Exactly(1));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Imposter.Tests.Features.Verification
             var result = sut.Instance().IntSingleParam(42);
 
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntSingleParam(Arg<int>.Any()).Called(Count.Never())
+                sut.IntSingleParam(Arg<int>.Any()).Should().HaveBeenCalled(Count.Never())
             );
 
             exception
@@ -44,7 +44,7 @@ namespace Imposter.Tests.Features.Verification
 
             var exception = Should.Throw<VerificationFailedException>(() =>
                 sut.IntParams(Arg<int>.Any(), Arg<string>.Any(), Arg<Regex>.Any())
-                    .Called(Count.Exactly(2))
+                    .Should().HaveBeenCalled(Count.Exactly(2))
             );
 
             exception
@@ -73,7 +73,7 @@ namespace Imposter.Tests.Features.Verification
 
             var exception = Should.Throw<VerificationFailedException>(() =>
                 sut.IntParams(Arg<int>.Any(), Arg<string>.Any(), Arg<Regex>.Any())
-                    .Called(Count.Exactly(2))
+                    .Should().HaveBeenCalled(Count.Exactly(2))
             );
 
             exception
@@ -102,7 +102,7 @@ namespace Imposter.Tests.Features.Verification
 
             var exception = Should.Throw<VerificationFailedException>(() =>
                 sut.GenericSingleParam<CustomArgument>(Arg<CustomArgument>.Any())
-                    .Called(Count.AtLeast(2))
+                    .Should().HaveBeenCalled(Count.AtLeast(2))
             );
 
             exception
@@ -119,7 +119,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntNoParams().Called(expectedCount)
+                sut.IntNoParams().Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -143,7 +143,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.AtMost(2);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntSingleParam(Arg<int>.Any()).Called(expectedCount)
+                sut.IntSingleParam(Arg<int>.Any()).Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -183,7 +183,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.AtLeast(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntSingleParam(Arg<int>.Is(x => x > 10)).Called(expectedCount)
+                sut.IntSingleParam(Arg<int>.Is(x => x > 10)).Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -225,7 +225,7 @@ namespace Imposter.Tests.Features.Verification
             var expectedCount = Count.Exactly(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
                 sut.IntParams(Arg<int>.Any(), Arg<string>.Any(), Arg<Regex>.Any())
-                    .Called(expectedCount)
+                    .Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -266,7 +266,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(2);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.GenericSingleParam<int>(Arg<int>.Any()).Called(expectedCount)
+                sut.GenericSingleParam<int>(Arg<int>.Any()).Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -289,7 +289,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Between(2, 4);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntNoParams().Called(expectedCount)
+                sut.IntNoParams().Should().HaveBeenCalled(expectedCount)
             );
 
             exception
@@ -310,7 +310,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(40);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.IntNoParams().Called(expectedCount)
+                sut.IntNoParams().Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();

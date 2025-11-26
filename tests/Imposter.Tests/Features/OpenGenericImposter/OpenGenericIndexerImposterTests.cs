@@ -36,7 +36,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance[1].ShouldBe("payload");
             instance[1] = "updated";
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance["alpha"].ShouldBe(10);
             instance["alpha"] = 42;
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance["alpha", 5].ShouldBe("value");
             instance["alpha", 5] = "new";
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Theory]
@@ -96,7 +96,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance["alpha", 7].ShouldBe("value");
             instance["alpha", 7] = "updated";
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -110,8 +110,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance["payload", 1].ShouldBe("value");
             instance["payload", 0].ShouldBe(default);
 
-            Should.NotThrow(() => getter.Called(Count.Once()));
-            Should.Throw<VerificationFailedException>(() => getter.Called(Count.Exactly(2)));
+            Should.NotThrow(() => getter.Should().HaveBeenCalled(Count.Once()));
+            Should.Throw<VerificationFailedException>(() => getter.Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Fact]
@@ -128,8 +128,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             stringIndexer.Instance()[1].ShouldBe("string-value");
             payloadIndexer.Instance()[1].Value.ShouldBe("payload");
 
-            Should.NotThrow(() => stringGetter.Called(Count.Once()));
-            Should.NotThrow(() => payloadGetter.Called(Count.Once()));
+            Should.NotThrow(() => stringGetter.Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => payloadGetter.Should().HaveBeenCalled(Count.Once()));
         }
 
         private static IHaveIndexerImposter<T> CreateIndexerImposter<T>()

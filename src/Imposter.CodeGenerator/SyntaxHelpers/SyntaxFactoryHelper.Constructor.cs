@@ -10,7 +10,8 @@ internal static partial class SyntaxFactoryHelper
 {
     internal static ConstructorDeclarationSyntax BuildConstructorAndInitializeMembers(
         string className,
-        IEnumerable<FieldDeclarationSyntax> fields
+        IEnumerable<FieldDeclarationSyntax> fields,
+        params StatementSyntax[] additionalStatements
     )
     {
         var constructorBuilder = new ConstructorBuilder(className).WithModifiers(
@@ -36,6 +37,8 @@ internal static partial class SyntaxFactoryHelper
                 );
             }
         }
+
+        constructorBody.AddStatements(additionalStatements);
 
         constructorBuilder.WithBody(constructorBody.Build());
 

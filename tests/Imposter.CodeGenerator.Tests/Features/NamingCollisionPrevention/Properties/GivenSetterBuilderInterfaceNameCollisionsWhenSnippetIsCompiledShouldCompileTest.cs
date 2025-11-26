@@ -21,11 +21,11 @@ namespace Sample.NamingCollisionUsage
         {
             var interfaceImposter = new IPropertySetterBuilderNameCollisionTargetImposter();
             interfaceImposter.IWeirdPropertySetterBuilder.Setter(Arg<int>.Any()).Callback(_ => { });
-            interfaceImposter.IWeirdPropertySetterBuilder.Setter(Arg<int>.Any()).Called(Count.AtLeast(0));
+            interfaceImposter.IWeirdPropertySetterBuilder.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(0));
             interfaceImposter.IWeirdPropertySetterFluentBuilder.Setter(Arg<int>.Any()).Callback(_ => { });
             interfaceImposter.IWeirdPropertySetterCallbackBuilder.Setter(Arg<int>.Any()).Callback(_ => { });
             interfaceImposter.IWeirdPropertySetterContinuationBuilder.Setter(Arg<int>.Any()).Callback(_ => { }).Then();
-            interfaceImposter.IWeirdPropertySetterVerifier.Setter(Arg<int>.Any()).Called(Count.AtLeast(1));
+            interfaceImposter.IWeirdPropertySetterVerifier.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(1));
 
             var classImposter = new PropertySetterBuilderClassCollisionTargetImposter();
             classImposter.IWeirdPropertySetterUseBaseImplementationBuilder.Setter(Arg<int>.Any()).Then().UseBaseImplementation();

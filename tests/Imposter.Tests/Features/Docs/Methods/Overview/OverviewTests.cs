@@ -114,8 +114,8 @@ namespace Imposter.Tests.Features.Docs.Methods.Overview
             service.Combine(1, 2).ShouldBe(42);
 
             // Verification
-            imposter.Increment(Arg<int>.Any()).Called(Count.AtLeast(2));
-            imposter.Increment(2).Called(Count.Once());
+            imposter.Increment(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(2));
+            imposter.Increment(2).Should().HaveBeenCalled(Count.Once());
         }
     }
 }

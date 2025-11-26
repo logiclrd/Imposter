@@ -21,7 +21,7 @@ namespace Sample
             imposter.GetNumber()
                 .Callback(default(IMethodInterfaceImposter.GetNumberCallbackDelegate))
                 .Then()
-                .Called(Imposter.Abstractions.Count.Exactly(1));
+                .Should().HaveBeenCalled(Imposter.Abstractions.Count.Exactly(1));
         }
     }
 }

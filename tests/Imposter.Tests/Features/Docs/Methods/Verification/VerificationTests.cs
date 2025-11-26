@@ -24,8 +24,8 @@ namespace Imposter.Tests.Features.Docs.Methods.Verification
             service.Increment(1);
             service.Increment(2);
 
-            Should.NotThrow(() => imposter.Increment(Arg<int>.Any()).Called(Count.AtLeast(2)));
-            Should.NotThrow(() => imposter.Increment(2).Called(Count.Once()));
+            Should.NotThrow(() => imposter.Increment(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(2)));
+            Should.NotThrow(() => imposter.Increment(2).Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -40,12 +40,12 @@ namespace Imposter.Tests.Features.Docs.Methods.Verification
             service.Combine(2, 5);
 
             Should.NotThrow(() =>
-                imposter.Increment(Arg<int>.Is(x => x > 10)).Called(Count.Exactly(3))
+                imposter.Increment(Arg<int>.Is(x => x > 10)).Should().HaveBeenCalled(Count.Exactly(3))
             );
             Should.NotThrow(() =>
                 imposter
                     .Combine(Arg<int>.Is(x => x > 0), Arg<int>.Is(y => y < 10))
-                    .Called(Count.Once())
+                    .Should().HaveBeenCalled(Count.Once())
             );
         }
 
@@ -59,11 +59,11 @@ namespace Imposter.Tests.Features.Docs.Methods.Verification
             service.Increment(2);
             service.Increment(2);
 
-            Should.NotThrow(() => imposter.Increment(Arg<int>.Any()).Called(Count.AtLeast(3)));
-            Should.NotThrow(() => imposter.Increment(2).Called(Count.Exactly(2)));
-            Should.NotThrow(() => imposter.Increment(1).Called(Count.Once()));
-            Should.NotThrow(() => imposter.Increment(999).Called(Count.Never()));
-            Should.NotThrow(() => imposter.Increment(Arg<int>.Any()).Called(Count.Any));
+            Should.NotThrow(() => imposter.Increment(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(3)));
+            Should.NotThrow(() => imposter.Increment(2).Should().HaveBeenCalled(Count.Exactly(2)));
+            Should.NotThrow(() => imposter.Increment(1).Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => imposter.Increment(999).Should().HaveBeenCalled(Count.Never()));
+            Should.NotThrow(() => imposter.Increment(Arg<int>.Any()).Should().HaveBeenCalled(Count.Any));
         }
     }
 }

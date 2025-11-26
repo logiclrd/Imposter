@@ -17,7 +17,7 @@ namespace Sample
         public static void Execute()
         {
             var imposter = new SampleServiceImposter();
-            imposter.Age.Getter().Throws(new System.Exception("fail")).Called(Imposter.Abstractions.Count.AtLeast(1));
+            imposter.Age.Getter().Throws(new System.Exception("fail")).Should().HaveBeenCalled(Imposter.Abstractions.Count.AtLeast(1));
         }
     }
 }

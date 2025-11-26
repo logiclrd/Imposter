@@ -18,7 +18,7 @@ public partial class ReturnsAndAsyncSuccessFluentApiTests
                     public static void Execute()
                     {
                         var imposter = new IMethodInterfaceImposter();
-                        imposter.GetNumberAsync().Called(Imposter.Abstractions.Count.Exactly(1));
+                        imposter.GetNumberAsync().Should().HaveBeenCalled(Imposter.Abstractions.Count.Exactly(1));
                     }
                 }
             }

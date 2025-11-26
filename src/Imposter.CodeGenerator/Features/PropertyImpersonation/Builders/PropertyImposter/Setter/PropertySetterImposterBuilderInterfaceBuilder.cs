@@ -44,13 +44,13 @@ internal static class PropertySetterImposterBuilderInterfaceBuilder
     {
         var builder = new InterfaceDeclarationBuilder(property.SetterImposterBuilderInterface.Name)
             .AddModifier(Token(SyntaxKind.PublicKeyword))
-            .AddBaseType(
-                SimpleBaseType(property.SetterImposterBuilderInterface.CallbackInterfaceTypeSyntax)
-            )
-            .AddBaseType(
-                SimpleBaseType(
+            .AddBaseType(SimpleBaseType(
+                WellKnownTypes.Imposter.Abstractions.IHaveInvocationVerifier(
                     property.SetterImposterBuilderInterface.VerificationInterfaceTypeSyntax
                 )
+            ))
+            .AddBaseType(
+                SimpleBaseType(property.SetterImposterBuilderInterface.CallbackInterfaceTypeSyntax)
             );
 
         if (
@@ -138,12 +138,12 @@ internal static class PropertySetterImposterBuilderInterfaceBuilder
         in ImposterPropertyMetadata property
     ) =>
         new MethodDeclarationBuilder(
-            property.SetterImposterBuilderInterface.CalledMethod.ReturnType,
-            property.SetterImposterBuilderInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
             .AddParameter(
                 SyntaxFactoryHelper.ParameterSyntax(
-                    property.SetterImposterBuilderInterface.CalledMethod.CountParameter
+                    HaveBeenCalledMethodMetadata.CountParameter
                 )
             )
             .WithSemicolon()

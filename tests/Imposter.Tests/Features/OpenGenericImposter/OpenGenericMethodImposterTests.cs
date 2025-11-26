@@ -52,7 +52,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             sut.Instance().OnNext("first");
             sut.Instance().OnNext("second");
 
-            Should.NotThrow(() => sut.OnNext(Arg<string>.Any()).Called(Count.Exactly(2)));
+            Should.NotThrow(() => sut.OnNext(Arg<string>.Any()).Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Theory]
@@ -69,7 +69,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.GetNext().ShouldBe("alpha");
             instance.GetNext().ShouldBe("beta");
 
-            Should.NotThrow(() => sut.GetNext().Called(Count.Exactly(2)));
+            Should.NotThrow(() => sut.GetNext().Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
                             value.StartsWith("a", StringComparison.OrdinalIgnoreCase)
                         )
                     )
-                    .Called(Count.Once())
+                    .Should().HaveBeenCalled(Count.Once())
             );
             Should.NotThrow(() =>
                 sut.CountFor(
@@ -135,7 +135,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
                             value.StartsWith("b", StringComparison.OrdinalIgnoreCase)
                         )
                     )
-                    .Called(Count.Once())
+                    .Should().HaveBeenCalled(Count.Once())
             );
         }
 
@@ -150,7 +150,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
 
             sut.Instance().Add("item", 2);
 
-            Should.NotThrow(() => verifier.Called(Count.Exactly(1)));
+            Should.NotThrow(() => verifier.Should().HaveBeenCalled(Count.Exactly(1)));
         }
 
         [Theory]
@@ -171,8 +171,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance.GetNext().ShouldBe(10);
             instance.Add(7, 1);
 
-            Should.NotThrow(() => sut.GetNext().Called(Count.Exactly(2)));
-            Should.NotThrow(() => addVerifier.Called(Count.Exactly(1)));
+            Should.NotThrow(() => sut.GetNext().Should().HaveBeenCalled(Count.Exactly(2)));
+            Should.NotThrow(() => addVerifier.Should().HaveBeenCalled(Count.Exactly(1)));
         }
 
         [Fact]
@@ -188,8 +188,8 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             var instance = sut.Instance();
             instance.Publish("payload", "alpha", 1);
 
-            Should.NotThrow(() => verifier.Called(Count.Exactly(1)));
-            Should.Throw<VerificationFailedException>(() => verifier.Called(Count.Exactly(2)));
+            Should.NotThrow(() => verifier.Should().HaveBeenCalled(Count.Exactly(1)));
+            Should.Throw<VerificationFailedException>(() => verifier.Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Fact]
@@ -235,7 +235,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             var sut = CreateMethodTargetImposter<string>();
 
             Should.Throw<VerificationFailedException>(() =>
-                sut.Add(Arg<string>.Any(), Arg<int>.Any()).Called(Count.Once())
+                sut.Add(Arg<string>.Any(), Arg<int>.Any()).Should().HaveBeenCalled(Count.Once())
             );
         }
 
@@ -252,9 +252,9 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             intObservable.Instance().OnNext(42);
 
             Should.NotThrow(() =>
-                stringObservable.OnNext(Arg<string>.Any()).Called(Count.Exactly(2))
+                stringObservable.OnNext(Arg<string>.Any()).Should().HaveBeenCalled(Count.Exactly(2))
             );
-            Should.NotThrow(() => intObservable.OnNext(Arg<int>.Any()).Called(Count.Exactly(1)));
+            Should.NotThrow(() => intObservable.OnNext(Arg<int>.Any()).Should().HaveBeenCalled(Count.Exactly(1)));
         }
 
         [Fact]
@@ -266,7 +266,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             intInstance.Add(7, 1);
 
             Should.Throw<VerificationFailedException>(() =>
-                stringVerifier.Add(Arg<string>.Any(), Arg<int>.Any()).Called(Count.Once())
+                stringVerifier.Add(Arg<string>.Any(), Arg<int>.Any()).Should().HaveBeenCalled(Count.Once())
             );
         }
 

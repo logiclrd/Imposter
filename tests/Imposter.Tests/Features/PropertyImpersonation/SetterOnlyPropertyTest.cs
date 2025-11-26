@@ -20,7 +20,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
 
             _sut.LastName.Setter(1).ShouldNotBeNull();
             _sut.LastName.Setter(1).Callback(_ => { }).ShouldNotBeNull();
-            _sut.LastName.Setter(1).Called(Count.Never());
+            _sut.LastName.Setter(1).Should().HaveBeenCalled(Count.Never());
         }
     }
 }

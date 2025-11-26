@@ -55,7 +55,7 @@ namespace Imposter.Tests.Features.ClassImpersonation
 
             instance.WriteValue(7, "verify", 77);
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace Imposter.Tests.Features.ClassImpersonation
 
             callbackArguments.ShouldBe(new[] { (11, "callback", 1111), (11, "callback", 2222) });
 
-            Should.NotThrow(() => setter.Called(Count.Exactly(2)));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Exactly(2)));
             instance.ReadValue(11, "callback").ShouldBe(2222);
         }
 
@@ -182,7 +182,7 @@ namespace Imposter.Tests.Features.ClassImpersonation
             instance.ReadValue(4, "callback").ShouldBe(444);
 
             callbackArguments.ShouldBe(new[] { (4, "callback") });
-            Should.NotThrow(() => getter.Called(Count.Once()));
+            Should.NotThrow(() => getter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]

@@ -118,7 +118,7 @@ namespace Imposter.Tests.Features.ClassImpersonation
             Should.NotThrow(() =>
                 _classSut
                     .BuildLabelAsync(Arg<string>.Any(), Arg<string>.Any())
-                    .Called(Count.Exactly(2))
+                    .Should().HaveBeenCalled(Count.Exactly(2))
             );
         }
 
@@ -170,8 +170,8 @@ namespace Imposter.Tests.Features.ClassImpersonation
             instance.IntSingleParam(1);
             instance.IntSingleParam(2);
 
-            Should.NotThrow(() => callVerifier.Called(Count.Exactly(2)));
-            Should.Throw<VerificationFailedException>(() => callVerifier.Called(Count.AtLeast(3)));
+            Should.NotThrow(() => callVerifier.Should().HaveBeenCalled(Count.Exactly(2)));
+            Should.Throw<VerificationFailedException>(() => callVerifier.Should().HaveBeenCalled(Count.AtLeast(3)));
         }
     }
 }

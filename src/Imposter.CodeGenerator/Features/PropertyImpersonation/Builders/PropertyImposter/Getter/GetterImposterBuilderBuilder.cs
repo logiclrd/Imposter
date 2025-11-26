@@ -1,6 +1,7 @@
 ﻿using Imposter.CodeGenerator.Features.PropertyImpersonation.Metadata;
 using Imposter.CodeGenerator.Features.PropertyImpersonation.Metadata.GetterImposterBuilder;
 using Imposter.CodeGenerator.Features.PropertyImpersonation.Metadata.GetterImposterBuilderInterface;
+using Imposter.CodeGenerator.Features.Shared.Builders;
 using Imposter.CodeGenerator.SyntaxHelpers;
 using Imposter.CodeGenerator.SyntaxHelpers.Builders;
 using Microsoft.CodeAnalysis.CSharp;
@@ -16,6 +17,7 @@ internal static class GetterImposterBuilderBuilder
     {
         var builder = new ClassDeclarationBuilder(property.GetterImposterBuilder.Name)
             .AddModifier(Token(SyntaxKind.InternalKeyword))
+            .AddBaseType(SimpleBaseType(WellKnownTypes.Imposter.Abstractions.HaveInvocationVerifier(property.GetterImposterBuilderInterface.VerificationInterfaceTypeSyntax)))
             .AddBaseType(SimpleBaseType(property.GetterImposterBuilderInterface.TypeSyntax))
             .AddBaseType(
                 SimpleBaseType(property.GetterImposterBuilderInterface.FluentInterfaceTypeSyntax)
@@ -89,11 +91,15 @@ internal static class GetterImposterBuilderBuilder
                 )
             )
             .AddMember(
-                BuildGetterCalledMethod(
+                BuildGetterHaveBeenCalledMethod(
                     property.GetterImposterBuilder,
                     property.GetterImposterBuilderInterface
                 )
             )
+            .AddMember(HaveBeenCalledProxyBuilder.Build(
+                property.GetterImposterBuilder.TypeSyntax,
+                property.GetterImposterBuilderInterface.VerificationInterfaceTypeSyntax
+            ))
             .AddMember(
                 BuildThenMethod(
                     property.GetterImposterBuilder,
@@ -186,6 +192,9 @@ internal static class GetterImposterBuilderBuilder
                     .Dot(IdentifierName("_propertyDisplayName"))
                     .Assign(IdentifierName("propertyDisplayName"))
                     .ToStatementSyntax()
+            )
+            .AddStatement(
+                HaveInvocationVerifierInitializationBuilder.Build()
             );
 
         return constructor.WithBody(body.Build()).Build();
@@ -429,23 +438,20 @@ internal static class GetterImposterBuilderBuilder
             )
             .Build();
 
-    internal static MethodDeclarationSyntax BuildGetterCalledMethod(
+    internal static MethodDeclarationSyntax BuildGetterHaveBeenCalledMethod(
         in PropertyGetterImposterBuilderMetadata builder,
         in PropertyGetterImposterBuilderInterfaceMetadata builderInterface
     ) =>
         new MethodDeclarationBuilder(
-            builderInterface.CalledMethod.ReturnType,
-            builderInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
-            .WithExplicitInterfaceSpecifier(
-                ExplicitInterfaceSpecifier(builderInterface.VerificationInterfaceTypeSyntax)
-            )
-            .AddParameter(ParameterSyntax(builderInterface.CalledMethod.CountParameter))
+            .AddParameter(ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter))
             .WithBody(
                 Block(
                     IfStatement(
                         Not(
-                            IdentifierName(builderInterface.CalledMethod.CountParameter.Name)
+                            IdentifierName(HaveBeenCalledMethodMetadata.CountParameter.Name)
                                 .Dot(IdentifierName("Matches"))
                                 .Call(Argument(IdentifierName(builder.InvocationCountField.Name)))
                         ),
@@ -455,7 +461,7 @@ internal static class GetterImposterBuilderBuilder
                                     SeparatedList([
                                         Argument(
                                             IdentifierName(
-                                                builderInterface.CalledMethod.CountParameter.Name
+                                                HaveBeenCalledMethodMetadata.CountParameter.Name
                                             )
                                         ),
                                         Argument(IdentifierName(builder.InvocationCountField.Name)),

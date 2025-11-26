@@ -18,7 +18,7 @@ namespace Sample
         public static void Execute()
         {
             var imposter = new IndexerServiceImposter();
-            imposter[Imposter.Abstractions.Arg<int>.Any()].Getter().Callback(value => { }).Called(Imposter.Abstractions.Count.AtLeast(1));
+            imposter[Imposter.Abstractions.Arg<int>.Any()].Getter().Callback(value => { }).Should().HaveBeenCalled(Imposter.Abstractions.Count.AtLeast(1));
         }
     }
 }

@@ -10,17 +10,14 @@ namespace Imposter.CodeGenerator.Features.MethodImpersonation.Builders.MethodImp
 
 internal static partial class MethodImposterBuilderBuilder
 {
-    private static MethodDeclarationSyntax BuildCalledMethod(in ImposterTargetMethodMetadata method)
+    private static MethodDeclarationSyntax BuildHaveBeenCalledMethod(in ImposterTargetMethodMetadata method)
     {
-        return new MethodDeclarationBuilder(WellKnownTypes.Void, CalledMethodMetadata.Name)
+        return new MethodDeclarationBuilder(WellKnownTypes.Void, HaveBeenCalledMethodMetadata.Name)
             .AddParameter(
                 ParameterSyntax(
-                    method.InvocationVerifierInterface.CalledMethod.CountParameter.Type,
-                    method.InvocationVerifierInterface.CalledMethod.CountParameter.Name
+                    HaveBeenCalledMethodMetadata.CountParameter.Type,
+                    HaveBeenCalledMethodMetadata.CountParameter.Name
                 )
-            )
-            .WithExplicitInterfaceSpecifier(
-                ExplicitInterfaceSpecifier(method.InvocationVerifierInterface.Syntax)
             )
             .WithBody(
                 Block(

@@ -37,7 +37,7 @@ namespace Sample.NamingCollisionUsage
                 .Callback(value => { });
 
             var getterVerifier = new IIndexerGetterVerifierCollisionTargetImposter();
-            getterVerifier[Arg<long>.Any()].Getter().Called(Count.AtLeast(1));
+            getterVerifier[Arg<long>.Any()].Getter().Should().HaveBeenCalled(Count.AtLeast(1));
 
             var getterFluentBuilder = new IIndexerGetterFluentBuilderCollisionTargetImposter();
             getterFluentBuilder[Arg<double>.Any()].Getter()

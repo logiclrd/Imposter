@@ -27,8 +27,6 @@ internal readonly struct IndexerSetterImposterBuilderInterfaceMetadata
 
     internal readonly CallbackMethodMetadata CallbackMethod;
 
-    internal readonly CalledMethodMetadata CalledMethod;
-
     internal readonly ThenMethodMetadata ThenMethod;
 
     internal readonly UseBaseImplementationMethodMetadata? UseBaseImplementationMethod;
@@ -57,7 +55,6 @@ internal readonly struct IndexerSetterImposterBuilderInterfaceMetadata
             ContinuationInterfaceTypeSyntax,
             CallbackInterfaceTypeSyntax
         );
-        CalledMethod = new CalledMethodMetadata();
         ThenMethod = new ThenMethodMetadata(
             ContinuationInterfaceTypeSyntax,
             FluentInterfaceTypeSyntax

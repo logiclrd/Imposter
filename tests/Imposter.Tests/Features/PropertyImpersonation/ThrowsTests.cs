@@ -49,7 +49,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
 
             Should.Throw<InvalidOperationException>(() => _sut.Instance().Age);
 
-            _sut.Age.Getter().Called(Count.Exactly(1));
+            _sut.Age.Getter().Should().HaveBeenCalled(Count.Exactly(1));
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
 
             Should.Throw<InvalidOperationException>(() => _sut.Instance().Age = 42);
 
-            _sut.Age.Setter(Arg<int>.Is(it => it == 42)).Called(Count.Exactly(1));
+            _sut.Age.Setter(Arg<int>.Is(it => it == 42)).Should().HaveBeenCalled(Count.Exactly(1));
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
 
             Should.Throw<InvalidOperationException>(() => _sut.Instance().Age);
 
-            _sut.Age.Getter().Called(Count.Exactly(1));
+            _sut.Age.Getter().Should().HaveBeenCalled(Count.Exactly(1));
         }
     }
 }

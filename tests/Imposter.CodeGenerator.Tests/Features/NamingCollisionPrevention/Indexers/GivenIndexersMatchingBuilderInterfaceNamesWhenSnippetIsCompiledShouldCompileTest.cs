@@ -29,7 +29,7 @@ namespace Sample.NamingCollisionUsage
 
             var setterEntry = new IIndexerSetterEntryCollisionTargetImposter();
             setterEntry[Arg<Guid>.Any()].Setter().Callback((index, value) => { });
-            setterEntry[Arg<Guid>.Any()].Setter().Called(Count.AtLeast(1));
+            setterEntry[Arg<Guid>.Any()].Setter().Should().HaveBeenCalled(Count.AtLeast(1));
         }
     }
 }

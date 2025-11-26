@@ -15,7 +15,7 @@ namespace Imposter.Tests.Features.Verification
             var setter = sut.Age.Setter(Arg<int>.Any());
             var expectedCount = Count.Exactly(2);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                setter.Called(expectedCount)
+                setter.Should().HaveBeenCalled(expectedCount)
             );
 
             var entries = exception.ReadEntries();
@@ -38,7 +38,7 @@ namespace Imposter.Tests.Features.Verification
             var setter = sut.Age.Setter(Arg<int>.Any());
             var expectedCount = Count.AtLeast(4);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                setter.Called(expectedCount)
+                setter.Should().HaveBeenCalled(expectedCount)
             );
 
             exception
@@ -65,7 +65,7 @@ namespace Imposter.Tests.Features.Verification
             var setter = sut.Age.Setter(Arg<int>.Is(v => v > 10));
             var expectedCount = Count.AtLeast(3);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                setter.Called(expectedCount)
+                setter.Should().HaveBeenCalled(expectedCount)
             );
             exception
                 .ReadEntries()
@@ -88,7 +88,7 @@ namespace Imposter.Tests.Features.Verification
 
             var expectedCount = Count.Exactly(2);
             var exception = Should.Throw<VerificationFailedException>(() =>
-                sut.Age.Getter().Called(expectedCount)
+                sut.Age.Getter().Should().HaveBeenCalled(expectedCount)
             );
 
             exception.MessageShouldDescribeCounts(expectedCount, 1);

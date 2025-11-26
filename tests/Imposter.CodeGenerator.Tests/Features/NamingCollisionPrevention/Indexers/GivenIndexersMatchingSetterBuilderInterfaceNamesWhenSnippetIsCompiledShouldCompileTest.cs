@@ -36,7 +36,7 @@ namespace Sample.NamingCollisionUsage
                 .Callback((index, value) => { });
 
             var setterVerifier = new IIndexerSetterVerifierCollisionTargetImposter();
-            setterVerifier[Arg<bool>.Any()].Setter().Called(Count.AtLeast(1));
+            setterVerifier[Arg<bool>.Any()].Setter().Should().HaveBeenCalled(Count.AtLeast(1));
 
             var setterFluentBuilder = new IIndexerSetterFluentBuilderCollisionTargetImposter();
             setterFluentBuilder[Arg<long>.Any()].Setter().Callback((index, value) => { });

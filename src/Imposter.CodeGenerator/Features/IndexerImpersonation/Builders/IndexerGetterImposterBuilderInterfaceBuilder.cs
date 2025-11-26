@@ -33,11 +33,9 @@ internal static class IndexerGetterImposterBuilderInterfaceBuilder
     ) =>
         new InterfaceDeclarationBuilder(indexer.GetterBuilderInterface.Name)
             .AddModifier(Token(SyntaxKind.PublicKeyword))
+            .AddBaseType(SimpleBaseType(WellKnownTypes.Imposter.Abstractions.IHaveInvocationVerifier(indexer.GetterBuilderInterface.VerificationInterfaceTypeSyntax)))
             .AddBaseType(SimpleBaseType(indexer.GetterBuilderInterface.OutcomeInterfaceTypeSyntax))
             .AddBaseType(SimpleBaseType(indexer.GetterBuilderInterface.CallbackInterfaceTypeSyntax))
-            .AddBaseType(
-                SimpleBaseType(indexer.GetterBuilderInterface.VerificationInterfaceTypeSyntax)
-            )
             .Build();
 
     private static InterfaceDeclarationSyntax BuildFluentInterface(
@@ -201,11 +199,11 @@ internal static class IndexerGetterImposterBuilderInterfaceBuilder
         IndexerGetterImposterBuilderInterfaceMetadata getterInterface
     ) =>
         new MethodDeclarationBuilder(
-            getterInterface.CalledMethod.ReturnType,
-            getterInterface.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
             .AddParameter(
-                SyntaxFactoryHelper.ParameterSyntax(getterInterface.CalledMethod.CountParameter)
+                SyntaxFactoryHelper.ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter)
             )
             .WithSemicolon()
             .Build();

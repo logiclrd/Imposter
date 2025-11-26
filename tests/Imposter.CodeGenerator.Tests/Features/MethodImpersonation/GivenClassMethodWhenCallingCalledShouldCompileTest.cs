@@ -18,7 +18,7 @@ public partial class ReturnsAndAsyncSuccessFluentApiTests
                     public static void Execute()
                     {
                         var imposter = new ClassMethodTargetImposter();
-                        imposter.VirtualCompute(Imposter.Abstractions.Arg<int>.Any()).Called(Imposter.Abstractions.Count.Exactly(1));
+                        imposter.VirtualCompute(Imposter.Abstractions.Arg<int>.Any()).Should().HaveBeenCalled(Imposter.Abstractions.Count.Exactly(1));
                     }
                 }
             }

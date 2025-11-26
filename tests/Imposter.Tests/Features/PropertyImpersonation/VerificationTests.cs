@@ -20,7 +20,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
             _sut.Instance().Age.ShouldBe(0);
             _sut.Instance().Age.ShouldBe(0);
 
-            Should.NotThrow(() => _sut.Age.Getter().Called(Count.Exactly(2)));
+            Should.NotThrow(() => _sut.Age.Getter().Should().HaveBeenCalled(Count.Exactly(2)));
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
             _sut.Instance().Age.ShouldBe(0);
 
             var exception = Should.Throw<Exception>(() =>
-                _sut.Age.Getter().Called(Count.Exactly(2))
+                _sut.Age.Getter().Should().HaveBeenCalled(Count.Exactly(2))
             );
             exception.Message.ShouldContain(
                 "Invocation was expected to be performed exactly 2 time(s) but instead was performed 1 times."
@@ -44,12 +44,12 @@ namespace Imposter.Tests.Features.PropertyImpersonation
             _sut.Instance().Age = 10;
 
             Should.NotThrow(() =>
-                _sut.Age.Setter(Arg<int>.Is(x => x == 20)).Called(Count.Exactly(1))
+                _sut.Age.Setter(Arg<int>.Is(x => x == 20)).Should().HaveBeenCalled(Count.Exactly(1))
             );
             Should.NotThrow(() =>
-                _sut.Age.Setter(Arg<int>.Is(x => x == 10)).Called(Count.Exactly(2))
+                _sut.Age.Setter(Arg<int>.Is(x => x == 10)).Should().HaveBeenCalled(Count.Exactly(2))
             );
-            Should.NotThrow(() => _sut.Age.Setter(Arg<int>.Any()).Called(Count.Exactly(3)));
+            Should.NotThrow(() => _sut.Age.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.Exactly(3)));
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
             _sut.Instance().Age = 10;
             _sut.Instance().Age = 20;
 
-            Should.NotThrow(() => _sut.Age.Setter(Arg<int>.Is(x => x == 99)).Called(Count.Never()));
+            Should.NotThrow(() => _sut.Age.Setter(Arg<int>.Is(x => x == 99)).Should().HaveBeenCalled(Count.Never()));
         }
     }
 }

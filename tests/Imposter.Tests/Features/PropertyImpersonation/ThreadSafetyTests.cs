@@ -62,9 +62,9 @@ namespace Imposter.Tests.Features.PropertyImpersonation
             }
 
             // Should not throw - just testing for thread safety
-            Should.NotThrow(() => _sut.Age.Getter().Called(Count.Exactly(ThreadCount / 2)));
+            Should.NotThrow(() => _sut.Age.Getter().Should().HaveBeenCalled(Count.Exactly(ThreadCount / 2)));
             Should.NotThrow(() =>
-                _sut.Age.Setter(Arg<int>.Any()).Called(Count.Exactly(ThreadCount / 2))
+                _sut.Age.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.Exactly(ThreadCount / 2))
             );
         }
 

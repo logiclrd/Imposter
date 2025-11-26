@@ -15,7 +15,7 @@ internal static class MethodImposterInvocationVerifierInterfaceBuilder
             .CreateForMethod(method.Symbol, method.InvocationVerifierInterface.Name)
             .AddModifier(Token(SyntaxKind.PublicKeyword))
             .AddMember(
-                new MethodDeclarationBuilder(WellKnownTypes.Void, CalledMethodMetadata.Name)
+                new MethodDeclarationBuilder(WellKnownTypes.Void, HaveBeenCalledMethodMetadata.Name)
                     .AddParameter(Parameter(Identifier("count")).WithType(IdentifierName("Count")))
                     .WithSemicolon()
                     .Build()

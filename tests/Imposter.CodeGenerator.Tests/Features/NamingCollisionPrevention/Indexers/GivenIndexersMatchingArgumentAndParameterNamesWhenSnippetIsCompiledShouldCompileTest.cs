@@ -30,7 +30,7 @@ namespace Sample.NamingCollisionUsage
             parameters[Arg<int>.Any()].Getter().Returns(() => 3);
             parameters[Arg<string>.Any()].Getter().Throws(value => new InvalidOperationException(value));
             parameters[Arg<Guid>.Any()].Setter().Callback((index, value) => { });
-            parameters[Arg<long>.Any()].Setter().Called(Count.AtLeast(1));
+            parameters[Arg<long>.Any()].Setter().Should().HaveBeenCalled(Count.AtLeast(1));
         }
     }
 }

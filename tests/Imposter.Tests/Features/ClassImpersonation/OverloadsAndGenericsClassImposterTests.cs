@@ -24,8 +24,8 @@ namespace Imposter.Tests.Features.ClassImpersonation
             instance.FormatInt(5).ShouldBe("five");
             instance.FormatString("abc", 4).ShouldBe("padded");
 
-            Should.NotThrow(() => intFormat.Called(Count.Once()));
-            Should.NotThrow(() => stringFormat.Called(Count.Once()));
+            Should.NotThrow(() => intFormat.Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => stringFormat.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -45,8 +45,8 @@ namespace Imposter.Tests.Features.ClassImpersonation
             var person = instance.EchoValue(new Person("Original"));
             person.Name.ShouldBe("Updated");
 
-            Should.NotThrow(() => stringEcho.Called(Count.Once()));
-            Should.NotThrow(() => personEcho.Called(Count.Once()));
+            Should.NotThrow(() => stringEcho.Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => personEcho.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -82,8 +82,8 @@ namespace Imposter.Tests.Features.ClassImpersonation
             var updatedPerson = instance.SelectFirstValue(originalPerson, guid);
             updatedPerson.Name.ShouldBe($"{originalPerson.Name}-{expectedSuffix}");
 
-            Should.NotThrow(() => stringIntSelect.Called(Count.Once()));
-            Should.NotThrow(() => personGuidSelect.Called(Count.Once()));
+            Should.NotThrow(() => stringIntSelect.Should().HaveBeenCalled(Count.Once()));
+            Should.NotThrow(() => personGuidSelect.Should().HaveBeenCalled(Count.Once()));
         }
 
         private class Person

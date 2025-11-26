@@ -32,8 +32,8 @@ namespace Sample.NamingCollisionUsage
             interfaceImposter.Then.Getter().Returns(5).Then();
             interfaceImposter.Then.Setter(Arg<int>.Any()).Callback(_ => { }).Then();
 
-            interfaceImposter.Called.Getter().Called(Count.AtLeast(1));
-            interfaceImposter.Called.Setter(Arg<int>.Any()).Called(Count.AtLeast(1));
+            interfaceImposter.Called.Getter().Should().HaveBeenCalled(Count.AtLeast(1));
+            interfaceImposter.Called.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(1));
 
             var classImposter = new PropertyBuilderOperationClassCollisionTargetImposter();
             classImposter.UseBaseImplementation.Getter().Returns(10).Then().UseBaseImplementation();

@@ -39,8 +39,8 @@ namespace Imposter.Tests.Features.MethodImpersonation
                 thread.Join();
             }
 
-            Should.NotThrow(() => _sut.IntNoParams().Called(Count.AtLeast(ThreadCount / 2)));
-            Should.NotThrow(() => _sut.VoidNoParams().Called(Count.AtLeast(ThreadCount / 2)));
+            Should.NotThrow(() => _sut.IntNoParams().Should().HaveBeenCalled(Count.AtLeast(ThreadCount / 2)));
+            Should.NotThrow(() => _sut.VoidNoParams().Should().HaveBeenCalled(Count.AtLeast(ThreadCount / 2)));
         }
 
         [Fact]

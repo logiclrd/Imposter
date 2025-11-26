@@ -26,7 +26,7 @@ namespace Sample.NamingCollisionUsage
             var getterSetter = new IPropertyDuplicateAccessorWithSetterCollisionTargetImposter();
             getterSetter.Reused.Getter().Returns(2);
             getterSetter.Reused.Setter(Arg<int>.Any()).Callback(_ => { });
-            getterSetter.Reused.Setter(Arg<int>.Any()).Called(Count.AtLeast(1));
+            getterSetter.Reused.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.AtLeast(1));
         }
     }
 }

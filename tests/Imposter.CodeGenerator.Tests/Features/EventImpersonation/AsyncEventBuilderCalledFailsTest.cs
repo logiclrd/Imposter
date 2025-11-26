@@ -18,7 +18,7 @@ public partial class EventBuilderFluentApiTests
                     public static void Execute()
                     {
                         var imposter = new IEventSutImposter();
-                        imposter.AsyncSomethingHappened.Called(global::Imposter.Abstractions.Count.Once());
+                        imposter.AsyncSomethingHappened.Should().HaveBeenCalled(global::Imposter.Abstractions.Count.Once());
                     }
                 }
             }

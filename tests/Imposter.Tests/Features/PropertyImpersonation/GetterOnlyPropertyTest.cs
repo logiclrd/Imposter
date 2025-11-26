@@ -18,7 +18,7 @@ namespace Imposter.Tests.Features.PropertyImpersonation
         {
             _sut.Name.Getter().ShouldNotBeNull();
             _sut.Name.Getter().Callback(() => { }).ShouldNotBeNull();
-            _sut.Name.Getter().Called(Count.Never());
+            _sut.Name.Getter().Should().HaveBeenCalled(Count.Never());
         }
     }
 }

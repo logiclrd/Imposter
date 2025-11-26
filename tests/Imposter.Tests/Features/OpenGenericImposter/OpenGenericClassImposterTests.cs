@@ -36,7 +36,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             var instance = imposter.Instance();
             instance.Echo("input").ShouldBe("configured");
 
-            Should.NotThrow(() => imposter.Echo(Arg<string>.Any()).Called(Count.Once()));
+            Should.NotThrow(() => imposter.Echo(Arg<string>.Any()).Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance[1].ShouldBe("value");
             instance[1] = "updated";
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace Imposter.Tests.Features.OpenGenericImposter
             instance["key", 5].ShouldBe("value");
             instance["key", 5] = "update";
 
-            Should.NotThrow(() => setter.Called(Count.Once()));
+            Should.NotThrow(() => setter.Should().HaveBeenCalled(Count.Once()));
         }
 
         [Fact]

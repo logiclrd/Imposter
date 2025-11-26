@@ -61,23 +61,36 @@ internal static partial class SyntaxFactoryHelper
         string name,
         in SyntaxTokenList? modifiers = null,
         ExpressionSyntax? initializer = null
+    ) => SingleVariableField(typeSyntax, Identifier(name), modifiers, initializer);
+
+    internal static FieldDeclarationSyntax SingleVariableField(
+        TypeSyntax typeSyntax,
+        SyntaxToken nameToken,
+        in SyntaxTokenList? modifiers = null,
+        ExpressionSyntax? initializer = null
     ) =>
         FieldDeclaration(
             default,
             modifiers ?? TokenList(),
-            VariableDeclarationSyntax(typeSyntax, name, initializer)
+            VariableDeclarationSyntax(typeSyntax, nameToken, initializer)
         );
 
     internal static VariableDeclarationSyntax VariableDeclarationSyntax(
         TypeSyntax typeSyntax,
         string name,
         ExpressionSyntax? initializer = null
+    ) => VariableDeclarationSyntax(typeSyntax, Identifier(name), initializer);
+
+    internal static VariableDeclarationSyntax VariableDeclarationSyntax(
+        TypeSyntax typeSyntax,
+        SyntaxToken nameToken,
+        ExpressionSyntax? initializer = null
     ) =>
         VariableDeclaration(
             typeSyntax,
             SingletonSeparatedList(
                 VariableDeclarator(
-                    Identifier(name),
+                    nameToken,
                     null,
                     initializer is null ? null : EqualsValueClause(initializer)
                 )

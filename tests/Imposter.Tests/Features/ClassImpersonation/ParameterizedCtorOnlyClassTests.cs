@@ -31,8 +31,8 @@ namespace Imposter.Tests.Features.ClassImpersonation
             instance[5].ShouldBe(10);
             instance[2] = 42;
 
-            Should.NotThrow(() => nameSetter.Called(Count.Exactly(1)));
-            Should.NotThrow(() => indexerSetter.Called(Count.Exactly(1)));
+            Should.NotThrow(() => nameSetter.Should().HaveBeenCalled(Count.Exactly(1)));
+            Should.NotThrow(() => indexerSetter.Should().HaveBeenCalled(Count.Exactly(1)));
 
             imposter.SomethingHappened.Raise(instance, EventArgs.Empty);
             eventRaised.ShouldBeTrue();

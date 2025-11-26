@@ -18,8 +18,8 @@ namespace Imposter.Tests.Features.PropertyImpersonation
         public void GivenNoInteractions_WhenVerifying_ShouldWork()
         {
             // No interactions yet
-            Should.NotThrow(() => _sut.Age.Getter().Called(Count.Never()));
-            Should.NotThrow(() => _sut.Age.Setter(Arg<int>.Any()).Called(Count.Never()));
+            Should.NotThrow(() => _sut.Age.Getter().Should().HaveBeenCalled(Count.Never()));
+            Should.NotThrow(() => _sut.Age.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.Never()));
         }
 
         [Fact]
@@ -131,8 +131,8 @@ namespace Imposter.Tests.Features.PropertyImpersonation
             callbackValues.ShouldContain(40);
 
             // Verification works for all interactions
-            _sut.Age.Setter(Arg<int>.Any()).Called(Count.Exactly(3));
-            _sut.Age.Getter().Called(Count.AtLeast(4));
+            _sut.Age.Setter(Arg<int>.Any()).Should().HaveBeenCalled(Count.Exactly(3));
+            _sut.Age.Getter().Should().HaveBeenCalled(Count.AtLeast(4));
         }
     }
 }

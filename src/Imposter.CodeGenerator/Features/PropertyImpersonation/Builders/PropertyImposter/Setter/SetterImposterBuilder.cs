@@ -72,7 +72,7 @@ internal static class SetterImposterBuilder
             )
             .AddMember(BuildConstructor(property))
             .AddMember(BuildSetterCallbackMethod(property.SetterImposter))
-            .AddMember(BuildSetterCalledMethod(property.SetterImposter))
+            .AddMember(BuildSetterHaveBeenCalledMethod(property.SetterImposter))
             .AddMember(
                 property.Core.SetterSupportsBaseImplementation
                     ? BuildUseBaseImplementationMethod()
@@ -306,7 +306,7 @@ internal static class SetterImposterBuilder
                 .ToStatementSyntax();
     }
 
-    internal static MethodDeclarationSyntax BuildSetterCalledMethod(
+    internal static MethodDeclarationSyntax BuildSetterHaveBeenCalledMethod(
         in PropertySetterImposterMetadata setterImposter
     )
     {
@@ -318,22 +318,22 @@ internal static class SetterImposterBuilder
         );
 
         return new MethodDeclarationBuilder(
-            setterImposter.CalledMethod.ReturnType,
-            setterImposter.CalledMethod.Name
+            HaveBeenCalledMethodMetadata.ReturnType,
+            HaveBeenCalledMethodMetadata.Name
         )
-            .AddParameter(ParameterSyntax(setterImposter.CalledMethod.CriteriaParameter))
-            .AddParameter(ParameterSyntax(setterImposter.CalledMethod.CountParameter))
+            .AddParameter(ParameterSyntax(setterImposter.InvocationCountMetadata.CriteriaParameter))
+            .AddParameter(ParameterSyntax(HaveBeenCalledMethodMetadata.CountParameter))
             .WithBody(
                 Block(
                     LocalVariableDeclarationSyntax(
                         Var,
-                        setterImposter.CalledMethod.InvocationCountVariableName,
+                        setterImposter.InvocationCountMetadata.InvocationCountVariableName,
                         invocationHistoryIdentifier
                             .Dot(IdentifierName("Count"))
                             .Call(
                                 Argument(
                                     IdentifierName(
-                                            setterImposter.CalledMethod.CriteriaParameter.Name
+                                            setterImposter.InvocationCountMetadata.CriteriaParameter.Name
                                         )
                                         .Dot(IdentifierName("Matches"))
                                 )
@@ -341,12 +341,12 @@ internal static class SetterImposterBuilder
                     ),
                     IfStatement(
                         Not(
-                            IdentifierName(setterImposter.CalledMethod.CountParameter.Name)
+                            IdentifierName(HaveBeenCalledMethodMetadata.CountParameter.Name)
                                 .Dot(IdentifierName("Matches"))
                                 .Call(
                                     Argument(
                                         IdentifierName(
-                                            setterImposter.CalledMethod.InvocationCountVariableName
+                                            setterImposter.InvocationCountMetadata.InvocationCountVariableName
                                         )
                                     )
                                 )
@@ -378,13 +378,13 @@ internal static class SetterImposterBuilder
                                         SeparatedList([
                                             Argument(
                                                 IdentifierName(
-                                                    setterImposter.CalledMethod.CountParameter.Name
+                                                    HaveBeenCalledMethodMetadata.CountParameter.Name
                                                 )
                                             ),
                                             Argument(
                                                 IdentifierName(
                                                     setterImposter
-                                                        .CalledMethod
+                                                        .InvocationCountMetadata
                                                         .InvocationCountVariableName
                                                 )
                                             ),
